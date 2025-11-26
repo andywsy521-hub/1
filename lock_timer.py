@@ -1,14 +1,14 @@
 import tkinter as tk
 import threading
 import time
-import ctypes
+import os
 
 
 # -------------------------
-# 锁屏功能（Windows）
+# 使用系统命令锁屏（更稳定）
 # -------------------------
 def lock_screen():
-    ctypes.windll.user32.LockWorkStation()
+    os.system("rundll32.exe user32.dll,LockWorkStation")
 
 
 # -------------------------
@@ -18,8 +18,8 @@ class TimerApp:
 
     def __init__(self, master):
         self.master = master
-        self.master.title("定时锁屏闹钟 v1.0")
-        self.master.geometry("300x200")
+        self.master.title("定时锁屏闹钟 v1.1（已修复锁屏）")
+        self.master.geometry("320x200")
 
         self.running = False
         self.timer_thread = None
@@ -68,10 +68,10 @@ class TimerApp:
             if not self.running:
                 break
 
-            # 锁定屏幕
+            # 锁定屏幕（确保一定执行）
             lock_screen()
 
-            # 等待 5 分钟后自动结束
+            # 等待 5 分钟后自动结束锁屏等待
             for i in range(5 * 60):
                 if not self.running:  # 允许强制停止
                     break
